@@ -21,6 +21,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from 'spec/helpers/testing-library';
 import TextControl from '.';
 
@@ -82,8 +83,8 @@ test('should return errors when not a float', async () => {
   render(<TextControl {...changeProps} />);
   const input = screen.getByPlaceholderText('Placeholder');
   await userEvent.type(input, '!num', { delay: 100 });
-  expect(changeProps.onChange).toHaveBeenCalled();
-  expect(changeProps.onChange).toHaveBeenCalledWith('!', [
+  await waitFor(() => expect(changeProps.onChange).toHaveBeenCalled());
+  expect(changeProps.onChange).toHaveBeenCalledWith('!num', [
     'is expected to be a number',
   ]);
 });
@@ -98,8 +99,8 @@ test('should return errors when not an int', async () => {
   render(<TextControl {...changeProps} />);
   const input = screen.getByPlaceholderText('Placeholder');
   await userEvent.type(input, '!int', { delay: 100 });
-  expect(changeProps.onChange).toHaveBeenCalled();
-  expect(changeProps.onChange).toHaveBeenCalledWith('!', [
+  await waitFor(() => expect(changeProps.onChange).toHaveBeenCalled());
+  expect(changeProps.onChange).toHaveBeenCalledWith('!int', [
     'is expected to be an integer',
   ]);
 });
