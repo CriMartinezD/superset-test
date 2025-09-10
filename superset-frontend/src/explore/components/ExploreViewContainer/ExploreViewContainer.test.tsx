@@ -125,11 +125,8 @@ const renderWithRouter = ({
   initialState?: object;
 } = {}) => {
   const path = overridePathname ?? defaultPath;
-  Object.defineProperty(window, 'location', {
-    get() {
-      return { pathname: path, search };
-    },
-  });
+  // jsdom 26+ compatibility: Use history.pushState instead of location mocking
+  window.history.pushState({}, '', `${path}${search}`);
   return render(
     <MemoryRouter initialEntries={[`${path}${search}`]}>
       <Route path={path}>
