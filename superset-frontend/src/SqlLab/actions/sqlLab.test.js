@@ -328,13 +328,13 @@ describe('async actions', () => {
     const { location } = window;
 
     beforeAll(() => {
-      delete window.location;
-      window.location = new URL('http://localhost/sqllab/?foo=bar');
+      // jsdom 26+ compatibility: Use history.pushState instead of location mocking
+      window.history.pushState({}, '', '/sqllab/?foo=bar');
     });
 
     afterAll(() => {
-      delete window.location;
-      window.location = location;
+      // Restore original URL
+      window.history.pushState({}, '', location.href);
     });
 
     const makeRequest = () => {

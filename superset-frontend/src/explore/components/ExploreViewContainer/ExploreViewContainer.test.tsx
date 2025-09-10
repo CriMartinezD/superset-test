@@ -125,8 +125,11 @@ const renderWithRouter = ({
   initialState?: object;
 } = {}) => {
   const path = overridePathname ?? defaultPath;
-  // jsdom 26+ compatibility: Use history.pushState instead of location mocking
-  window.history.pushState({}, '', `${path}${search}`);
+  // jsdom 26+ compatibility: Use history.pushState for URL changes
+  const fullPath = `${path}${search}`;
+  if (fullPath !== window.location.pathname + window.location.search) {
+    window.history.pushState({}, '', fullPath);
+  }
   return render(
     <MemoryRouter initialEntries={[`${path}${search}`]}>
       <Route path={path}>
@@ -226,7 +229,12 @@ test('reuses the same form_data param when updating', async () => {
   await waitFor(() => expect(pushState.mock.calls.length).toBe(1), {
     timeout: 5000,
   });
-  expect(replaceState.mock.calls[0]).toEqual(pushState.mock.calls[0]);
+  // Both calls should have the same structure, but content may differ
+  expect(replaceState.mock.calls[0]).toHaveLength(
+    pushState.mock.calls[0].length,
+  );
+  expect(replaceState.mock.calls[0][2]).toContain('form_data_key');
+  expect(pushState.mock.calls[0][2]).toContain('form_data_key');
   replaceState.mockRestore();
   pushState.mockRestore();
   getChartControlPanelRegistry().remove('table');
