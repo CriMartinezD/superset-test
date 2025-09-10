@@ -41,6 +41,9 @@ module.exports = {
   testEnvironmentOptions: {
     globalsCleanup: true,
     url: 'http://localhost',
+    // Jest 30 compatibility: Ensure proper cleanup
+    resources: 'usable',
+    runScripts: 'dangerously',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
@@ -79,4 +82,15 @@ module.exports = {
     ],
   ],
   testTimeout: 20000,
+  // Jest 30 compatibility: Handle timers and async operations properly
+  fakeTimers: {
+    enableGlobally: false,
+    legacyFakeTimers: false,
+  },
+  // Better cleanup for worker processes
+  detectOpenHandles: false,
+  forceExit: true,
+  // Improved memory management
+  maxWorkers: '80%',
+  workerIdleMemoryLimit: '512MB',
 };

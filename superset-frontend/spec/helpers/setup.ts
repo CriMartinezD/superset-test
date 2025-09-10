@@ -49,3 +49,41 @@ global.React = React;
 // See: https://github.com/mswjs/jest-fixed-jsdom
 //
 // Configured in jest.config.js → testEnvironment: 'jest-fixed-jsdom'
+
+// =============================================================================
+// JEST 30 COMPATIBILITY: ENHANCED CLEANUP FOR TIMER AND ASYNC OPERATION LEAKS
+// =============================================================================
+
+let originalTimeout: typeof setTimeout;
+let originalClearTimeout: typeof clearTimeout;
+let originalInterval: typeof setInterval;
+let originalClearInterval: typeof clearInterval;
+
+beforeAll(() => {
+  // Store original timer functions
+  originalTimeout = global.setTimeout;
+  originalClearTimeout = global.clearTimeout;
+  originalInterval = global.setInterval;
+  originalClearInterval = global.clearInterval;
+});
+
+afterEach(() => {
+  // Clear all timers after each test to prevent leaks
+  jest.clearAllTimers();
+
+  // Ensure all pending async operations are flushed
+  jest.runOnlyPendingTimers();
+
+  // Additional cleanup for common leak sources
+  if (typeof global.gc === 'function') {
+    global.gc();
+  }
+});
+
+afterAll(() => {
+  // Restore original timer functions
+  global.setTimeout = originalTimeout;
+  global.clearTimeout = originalClearTimeout;
+  global.setInterval = originalInterval;
+  global.clearInterval = originalClearInterval;
+});
