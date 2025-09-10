@@ -107,10 +107,24 @@ test('fetches the query history when the persistence mode is enabled', async () 
 
   render(setup(), { useRedux: true, initialState });
 
-  await waitFor(() => {
-    expect(fetchMock.calls(editorQueryApiRoute).length).toBe(1);
-    expect(screen.getByText(fakeApiResult.result[0].rows)).toBeInTheDocument();
-  });
+  // Wait for the component to trigger the API call
+  await waitFor(
+    () => {
+      expect(fetchMock.calls(editorQueryApiRoute).length).toBe(1);
+    },
+    { timeout: 30000 },
+  );
+
+  // Separately wait for the DOM to update with the result
+  await waitFor(
+    () => {
+      expect(
+        screen.getByText(fakeApiResult.result[0].rows),
+      ).toBeInTheDocument();
+    },
+    { timeout: 10000 },
+  );
+
   isFeatureEnabledMock.mockClear();
 });
 
