@@ -81,7 +81,7 @@ test('should return errors when not a float', async () => {
   };
   render(<TextControl {...changeProps} />);
   const input = screen.getByPlaceholderText('Placeholder');
-  await userEvent.type(input, '!num', { delay: 500 });
+  await userEvent.type(input, '!num', { delay: 100 });
   expect(changeProps.onChange).toHaveBeenCalled();
   expect(changeProps.onChange).toHaveBeenCalledWith('!', [
     'is expected to be a number',
@@ -97,7 +97,7 @@ test('should return errors when not an int', async () => {
   };
   render(<TextControl {...changeProps} />);
   const input = screen.getByPlaceholderText('Placeholder');
-  await userEvent.type(input, '!int', { delay: 500 });
+  await userEvent.type(input, '!int', { delay: 100 });
   expect(changeProps.onChange).toHaveBeenCalled();
   expect(changeProps.onChange).toHaveBeenCalledWith('!', [
     'is expected to be an integer',

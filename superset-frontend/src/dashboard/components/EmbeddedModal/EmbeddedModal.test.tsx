@@ -60,8 +60,8 @@ const setMockApiNotFound = () => {
 };
 
 const setup = () => {
-  render(<DashboardEmbedModal {...defaultProps} />, { useRedux: true });
   resetMockApi();
+  render(<DashboardEmbedModal {...defaultProps} />, { useRedux: true });
 };
 
 beforeEach(() => {
