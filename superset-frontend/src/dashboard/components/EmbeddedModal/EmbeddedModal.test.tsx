@@ -17,7 +17,6 @@
  * under the License.
  */
 
-// Increase timeout for CI environment
 import {
   render,
   screen,
@@ -31,8 +30,6 @@ import {
 } from '@superset-ui/core';
 import setupExtensions from 'src/setup/setupExtensions';
 import DashboardEmbedModal from './index';
-
-jest.setTimeout(30000);
 
 const defaultResponse = {
   result: { uuid: 'uuid', dashboard_id: '1', allowed_domains: ['example.com'] },
