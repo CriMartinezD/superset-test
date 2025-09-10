@@ -66,44 +66,18 @@ test('calls onChange when the SQL clause changes', async () => {
     />,
   );
 
-  // Wait for component to fully render
   await waitFor(() => {
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
-  // Add more time for async operations to settle
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await selectOption(Clauses.Having);
 
-  try {
-    await selectOption(Clauses.Having);
-  } catch (error) {
-    console.error('selectOption failed, trying direct approach:', error);
-
-    // Fallback: try direct DOM interaction
-    const dropdown = screen.getByRole('combobox');
-    await userEvent.click(dropdown);
-
-    await waitFor(() => {
-      const havingOption = screen.getByText('HAVING');
-      return havingOption;
-    });
-
-    const havingOption = screen.getByText('HAVING');
-    await userEvent.click(havingOption);
-  }
-
-  // Give more time for onChange to be called
-  await new Promise(resolve => setTimeout(resolve, 200));
-
-  await waitFor(
-    () => {
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({ clause: Clauses.Having }),
-      );
-    },
-    { timeout: 10000 },
-  );
-}, 60000);
+  await waitFor(() => {
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ clause: Clauses.Having }),
+    );
+  });
+});
 
 test('calls onChange when the SQL expression changes', async () => {
   const onChange = jest.fn();

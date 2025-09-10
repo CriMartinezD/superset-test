@@ -109,10 +109,8 @@ test('fetches the query history when the persistence mode is enabled', async () 
 
   await waitFor(() => {
     expect(fetchMock.calls(editorQueryApiRoute).length).toBe(1);
+    expect(screen.getByText(fakeApiResult.result[0].rows)).toBeInTheDocument();
   });
-
-  const queryResultText = screen.getByText(fakeApiResult.result[0].rows);
-  expect(queryResultText).toBeInTheDocument();
   isFeatureEnabledMock.mockClear();
 });
 
