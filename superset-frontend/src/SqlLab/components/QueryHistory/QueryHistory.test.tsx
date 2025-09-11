@@ -97,6 +97,8 @@ test('Renders an empty state for query history', () => {
 });
 
 test('fetches the query history when the persistence mode is enabled', async () => {
+  jest.useFakeTimers();
+
   // Set up the mock BEFORE rendering to avoid timing issues
   const isFeatureEnabledMock = mockedIsFeatureEnabled.mockImplementation(
     featureFlag => featureFlag === FeatureFlag.SqllabBackendPersistence,
@@ -107,12 +109,15 @@ test('fetches the query history when the persistence mode is enabled', async () 
 
   render(setup(), { useRedux: true, initialState });
 
+  // Let any microtasks and timers resolve
+  await jest.runAllTimersAsync();
+
   // Wait for the component to trigger the API call
   await waitFor(
     () => {
       expect(fetchMock.calls(editorQueryApiRoute).length).toBe(1);
     },
-    { timeout: 30000 },
+    { timeout: 5000 },
   );
 
   // Separately wait for the DOM to update with the result
@@ -122,9 +127,10 @@ test('fetches the query history when the persistence mode is enabled', async () 
         screen.getByText(fakeApiResult.result[0].rows),
       ).toBeInTheDocument();
     },
-    { timeout: 10000 },
+    { timeout: 5000 },
   );
 
+  jest.useRealTimers();
   isFeatureEnabledMock.mockClear();
 });
 
