@@ -305,6 +305,9 @@ test('calls onChange when END Specific Date/Time is selected', async () => {
   expect(onChange).toHaveBeenCalled();
 });
 
+// TODO: This test was made complex trying to handle Jest 30/jsdom 26 date picker interactions
+// The antd DatePicker UI interactions are fragile in different jsdom versions
+// Consider mocking the date picker component or using different interaction strategy
 test.skip('calls onChange when a date is picked from anchor mode date picker', async () => {
   const onChange = jest.fn();
   render(
