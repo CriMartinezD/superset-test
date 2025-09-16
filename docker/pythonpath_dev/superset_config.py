@@ -41,6 +41,7 @@ EXAMPLES_PASSWORD = os.getenv("EXAMPLES_PASSWORD")
 EXAMPLES_HOST = os.getenv("EXAMPLES_HOST")
 EXAMPLES_PORT = os.getenv("EXAMPLES_PORT")
 EXAMPLES_DB = os.getenv("EXAMPLES_DB")
+SECRET_KEY = os.getenv('SUPERSET_SECRET_KEY')
 
 # The SQLAlchemy connection string.
 SQLALCHEMY_DATABASE_URI = (
@@ -105,7 +106,68 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+APP_NAME="Opencity Reporter"
+APP_ICON = "/static/assets/images/logo.png"
+ENABLE_CORS = True 
+CORS_OPTIONS = { 
+        "supports_credentials": True, 
+        "allow_headers": "*", 
+        "expose_headers": "*", 
+        "resources": "*", 
+        "origins": ["http://localhost:4200","http://localhost:3000"] 
+}
+        
+
+# Dashboard embedding 
+GUEST_ROLE_NAME = "Gamma" 
+GUEST_TOKEN_JWT_SECRET = "PASTE_GENERATED_SECRET_HERE" 
+GUEST_TOKEN_JWT_ALGO = "HS256" 
+GUEST_TOKEN_HEADER_NAME = "X-GuestToken" 
+GUEST_TOKEN_JWT_EXP_SECONDS = 300 # 5 minutes
+
+# Setting it to '/' would take the user to '/superset/welcome/'
+LOGO_TARGET_PATH = '/'
+
+# Specify tooltip that should appear when hovering over the App Icon/Logo
+LOGO_TOOLTIP = "Opencity"
+
+# Specify any text that should appear to the right of the logo
+LOGO_RIGHT_TEXT = "Opencity"
+
+FAVICONS = [{"href": "/static/assets/images/favicon.png"}]
+
+THEME_OVERRIDES = {
+    "colors": {
+        "text": {
+            "label": '#414141',
+            "help": '#FFD21A'
+        },
+        "primary": {
+            "base": '#036D6D',
+        },
+        "secondary": {
+            "base": '#0ACCDB',
+        },
+        "grayscale": {
+            "base": 'orange',
+        },
+        "error": {
+            "base": 'Pink'
+        }
+    },
+}
+
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+     {
+         "id": 'opencity_report_color',
+         "description": '',
+         "label": 'Opencity Color',
+         "colors":
+          ['#036D6D', '#036D6D', '#75E00E', '#FFD21A', '#414141', '#AA5ECB', '#CE42A1',
+          '#EC487D', '#FA6E67', '#FFA064', '#EEDD55', '#9977BB', '#BBAA44', '#DDCCDD']
+     }]
+FEATURE_FLAGS = {"ALERT_REPORTS": True,  "EMBEDDED_SUPERSET": True,"ENABLE_TEMPLATE_PROCESSING": True,}
+
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = f"http://superset_app{os.environ.get('SUPERSET_APP_ROOT', '/')}/"  # When using docker compose baseurl should be http://superset_nginx{ENV{BASEPATH}}/  # noqa: E501
 # The base URL for the email report hyperlinks.
