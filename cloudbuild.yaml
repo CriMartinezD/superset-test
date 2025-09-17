@@ -1,0 +1,13 @@
+steps:
+# 1. Este paso construye tu imagen usando Docker
+#    'gcr.io/cloud-builders/docker' es el constructor estándar de Docker en Cloud Build.
+- name: 'gcr.io/cloud-builders/docker'
+  # 💡 ¡LA SOLUCIÓN! Esta variable habilita BuildKit, permitiendo el --mount.
+  env: ['DOCKER_BUILDKIT=1'] 
+  args: 
+  - 'build'
+  - '--tag'
+  - 'gcr.io/$PROJECT_ID/superset-test:$COMMIT_SHA'  # Etiqueta la imagen con el nombre del proyecto
+  - '--file'
+  - './Dockerfile'  # La ruta a tu Dockerfile
+  - '.' # Contexto de la compilación
