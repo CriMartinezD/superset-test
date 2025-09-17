@@ -41,6 +41,7 @@ EXAMPLES_PASSWORD = os.getenv("EXAMPLES_PASSWORD")
 EXAMPLES_HOST = os.getenv("EXAMPLES_HOST")
 EXAMPLES_PORT = os.getenv("EXAMPLES_PORT")
 EXAMPLES_DB = os.getenv("EXAMPLES_DB")
+SECRET_KEY = os.getenv('SUPERSET_SECRET_KEY')
 
 # The SQLAlchemy connection string.
 SQLALCHEMY_DATABASE_URI = (
@@ -98,7 +99,43 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+APP_NAME="Opencity Reporter"
+APP_ICON = "/static/assets/images/logo.png"
+LOGO_TARGET_PATH = '/'
+LOGO_TOOLTIP = "Opencity"
+LOGO_RIGHT_TEXT = "Opencity"
+FAVICONS = [{"href": "/static/assets/images/favicon.png"}]
+THEME_OVERRIDES = {
+    "colors": {
+        "text": {
+            "label": '#414141',
+            "help": '#FFD21A'
+        },
+        "primary": {
+            "base": '#036D6D',
+        },
+        "secondary": {
+            "base": '#0ACCDB',
+        },
+        "grayscale": {
+            "base": 'orange',
+        },
+        "error": {
+            "base": 'Pink'
+        }
+    },
+}
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+     {
+         "id": 'opencity_report_color',
+         "description": '',
+         "label": 'Opencity Color',
+         "colors":
+          ['#036D6D', '#036D6D', '#75E00E', '#FFD21A', '#414141', '#AA5ECB', '#CE42A1',
+          '#EC487D', '#FA6E67', '#FFA064', '#EEDD55', '#9977BB', '#BBAA44', '#DDCCDD']
+     }]
+
+FEATURE_FLAGS = {"ALERT_REPORTS": True,"ENABLE_TEMPLATE_PROCESSING": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/  # noqa: E501
 # The base URL for the email report hyperlinks.
