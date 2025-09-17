@@ -134,8 +134,17 @@ EXTRA_CATEGORICAL_COLOR_SCHEMES = [
           ['#036D6D', '#036D6D', '#75E00E', '#FFD21A', '#414141', '#AA5ECB', '#CE42A1',
           '#EC487D', '#FA6E67', '#FFA064', '#EEDD55', '#9977BB', '#BBAA44', '#DDCCDD']
      }]
+ENABLE_CORS= True
+CORS_OPTIONS = { 
+        "supports_credentials": True, 
+        "allow_headers": "*", 
+        "expose_headers": "*", 
+        "resources": "*", 
+        "origins": ["http://localhost:4200","http://localhost:3000"] 
+}
+TALISMAN_ENABLED = True
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True,"ENABLE_TEMPLATE_PROCESSING": True}
+FEATURE_FLAGS = {"ALERT_REPORTS": True,"ENABLE_TEMPLATE_PROCESSING": True, "EMBEDDED_SUPERSET": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/  # noqa: E501
 # The base URL for the email report hyperlinks.
